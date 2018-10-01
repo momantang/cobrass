@@ -105,5 +105,6 @@ venv.bak/
 
 .idea/
 vcs.xml
+local/
 
 
