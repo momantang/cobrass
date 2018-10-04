@@ -1,17 +1,17 @@
-pip
-
+sympy==1.3
+jupyter==1.0.0
 
 TA-Lib == 0.4.17
 psycopg2==2.7.5
 SQLAlchemy==1.2.10
 
-abupy==0.4.0
 
 numpy
 pandas
 scipy
 matplotlib
 seaborn
+django
 
 mpl_finance==0.10.0
 pandas_datareader==0.7.0
