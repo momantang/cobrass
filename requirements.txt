@@ -13,7 +13,7 @@ scipy
 matplotlib
 seaborn
 # django 模块
-django==2.1.1
+django==2.1.2
 django-crontab==0.7.1
 
 mpl_finance==0.10.0
