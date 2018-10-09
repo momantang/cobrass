@@ -1,0 +1,14 @@
+- model: finance.stock
+  pk: 1
+  fields:
+    code: 601318
+    name: 中国平安
+- model: finance.stock
+  pk: 2
+  fields:
+    code: 600519
+    name: 贵州茅台
+- model: polls.question
+  pk: 1
+  fields:
+    question_text: What's new?

@@ -25,6 +25,16 @@ python manage.py migrate
 
 
 ```
+```angular2html
+
+import pymongo
+import json
+
+conn = pymongo.Connection('127.0.0.1', port=27017)
+df = ts.get_tick_data('600848',date='2014-12-22')
+
+conn.db.tickdata.insert(json.loads(df.to_json(orient='records')))
+```
 
 
 有用网址

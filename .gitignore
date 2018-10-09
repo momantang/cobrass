@@ -111,4 +111,6 @@ data/
 *.config
 config/
 
+settings.py
+
 
