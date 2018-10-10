@@ -42,6 +42,7 @@ def down_market_snapshot(save=True):
     snapshot = quotation.market_snapshot(prefix=True)
     df_snapshot = pd.DataFrame.from_dict(snapshot)
     df_snapshot = df_snapshot.T
+    df_snapshot.index.name = 'code'
     if save:
         df_snapshot.to_csv(ls.LocalSetting.data_path + "mark_snapshot/" + dateStr + ".csv")
     return df_snapshot
