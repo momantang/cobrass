@@ -38,6 +38,15 @@ def is_tradetime_now():
     return False
 
 
+def is_tradetime_now2():
+    """
+    :return:
+    """
+    if not is_hoilday_today():
+        return is_tradetime_now()
+    return False
+
+
 def calc_next_trade_time_delta_seconds():
     now_time = datetime.datetime.now()
     now = (now_time.hour, now_time.minute, now_time.second)
@@ -67,5 +76,6 @@ def calc_next_trade_time_delta_seconds():
     time_delta = next_trade_start - now_time
     return time_delta.total_seconds()
 
+
 if __name__ == '__main__':
-    print(is_holiday('20160404'))
+    print(is_tradetime_now2())

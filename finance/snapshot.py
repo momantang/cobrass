@@ -18,12 +18,15 @@ def interest_stock_snapshot(df_snapshot):
     # print(df_snapshot.info(verbose=True))
     interest_stock = Stock.objects.filter(is_interest=True)
 
-    df_stock = pd.DataFrame(columns=['code', 'name'])
+    df_stock = pd.DataFrame(columns=['code', 'stname'])
     for stock in interest_stock:
-        df_stock = df_stock.append({'code': stockutil.get_stock_type(stock.code) + stock.code, 'name': stock.name},
+        df_stock = df_stock.append({'code': stockutil.get_stock_type(stock.code) + stock.code, 'stname': stock.name},
                                    ignore_index=True)
-    df_stock.set_index('code')
-    df_snapshot.set_index('Unnamed: 0')
+    df_stock = df_stock.set_index('code')
+    print("df_stock:")
+    print(df_stock.head())
+    print("df_snapshot:")
+    print(df_snapshot.head())
     df = pd.concat([df_stock, df_snapshot], axis=1, join='inner')
     print(df.head())
-    print(df.shape)
+    return df

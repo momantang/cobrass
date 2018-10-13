@@ -45,6 +45,11 @@ easyquotation==0.5.12
 PyAlgoTrade==0.20
 
 
+pypinyin
+cython
+pyecharts_jupyter_installer
+
+
 
 
 

@@ -1,3 +1,7 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
 from django.test import TestCase
 from . import cron
 from . import snapshot
@@ -12,16 +16,16 @@ from django.test.utils import override_settings
 class CornTests(TestCase):
     @skip("dont want to test")
     def test_down_market_snapshot(self):
-        df = cron.down_market_snapshot(save=False)
+        df = cron.down_market_snapshot(save=True)
         # df = df[df['open'] > 0]
         # df['change'] = (df['now'] - df['open']) / df['open']
         # print(df[df['change'] > 0.08])
-        self.assertEqual(df.shape, (4732, 35))
+        self.assertEqual(df.shape, (4732, 32))
 
 
 @override_settings(EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend')
 class SnapShotTests(TestCase):
-    @skip('')
+    # @skip('')
     def test_interest_stock_snapshot(self):
         stock1 = Stock(name='中国平安', code='601318', is_interest=True)
         stock1.save()
@@ -30,6 +34,9 @@ class SnapShotTests(TestCase):
         stock3 = Stock(name='贵州茅台', code='000001', is_interest=True)
         stock3.save()
         stocks = Stock.objects.filter(is_interest=True)
-        df = snapshot.df_snapshot
+        df = cron.down_market_snapshot(save=True)
+        # df = snapshot.interest_stock_snapshot(df)
+        print("df:")
+        print(df)
         mail_util.send_email_stock_snapshot(df, how='up', emails=['448006212@qq.com'])
         # df = snapshot.interest_stock_snapshot(snapshot.df_snapshot)
