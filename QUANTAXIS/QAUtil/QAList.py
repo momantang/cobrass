@@ -21,47 +21,17 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
-import csv
-import json
-
 import numpy as np
-import pandas as pd
 
 
-def QA_util_to_json_from_pandas(data):
-    """需要对于datetime 和date 进行转换, 以免直接被变成了时间戳"""
-    if 'datetime' in data.columns:
-        data.datetime = data.datetime.apply(str)
-    if 'date' in data.columns:
-        data.date = data.date.apply(str)
-    return json.loads(data.to_json(orient='records'))
+def QA_util_multi_demension_list(row_, col_=0):
+    # row_ 是行, col_ 是列
+    """
+    如果需要创建一个[[],[]], 那就用 row_=2,col=0
+    其他时候,返回的都是[[None]]
+    """
+    return [[None for col in range(col_)] for row in range(row_)]
 
 
-def QA_util_to_json_from_numpy(data):
-    pass
-
-
-def QA_util_to_json_from_list(data):
-    pass
-
-
-def QA_util_to_list_from_pandas(data):
-    return np.asarray(data).tolist()
-
-
-def QA_util_to_list_from_numpy(data):
-    return data.tolist()
-
-
-def QA_util_to_pandas_from_json(data):
-
-    if isinstance(data, dict):
-        return pd.DataFrame(data=[data, ])
-    else:
-        return pd.DataFrame(data=[{'value': data}])
-
-
-def QA_util_to_pandas_from_list(data):
-    if isinstance(data, list):
-        return pd.DataFrame(data=data)
+def QA_util_diff_list(datastruct):
+    return (np.array(datastruct[1:]) - np.array(datastruct[:-1])).tolist()

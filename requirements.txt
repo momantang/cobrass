@@ -50,6 +50,9 @@ cython
 pyecharts_jupyter_installer
 
 
+jieba
+fuzzyfinder
+
 
 
 

@@ -49,4 +49,5 @@ conn.db.tickdata.insert(json.loads(df.to_json(orient='records')))
 - [tushare]() [pro]()
 -
 
+QASetting 中 严重参考https://github.com/mtik00/cronner实现
 

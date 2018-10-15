@@ -1,4 +1,4 @@
-# coding:utf-8
+# coding=utf-8
 #
 # The MIT License (MIT)
 #
@@ -22,46 +22,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import csv
-import json
-
-import numpy as np
-import pandas as pd
-
-
-def QA_util_to_json_from_pandas(data):
-    """需要对于datetime 和date 进行转换, 以免直接被变成了时间戳"""
-    if 'datetime' in data.columns:
-        data.datetime = data.datetime.apply(str)
-    if 'date' in data.columns:
-        data.date = data.date.apply(str)
-    return json.loads(data.to_json(orient='records'))
+from email import encoders
+from email.header import Header
+from email.mime.text import MIMEText
+from email.utils import parseaddr, formataddr
+import smtplib
 
 
-def QA_util_to_json_from_numpy(data):
-    pass
+def QA_util_send_mail(msg, title, from_user, from_password, to_addr, smtp):
+    """邮件发送
+    
+    Arguments:
+        msg {[type]} -- [description]
+        title {[type]} -- [description]
+        from_user {[type]} -- [description]
+        from_password {[type]} -- [description]
+        to_addr {[type]} -- [description]
+        smtp {[type]} -- [description]
+    """
+
+    msg = MIMEText(msg, 'plain', 'utf-8')
+    msg['Subject'] = Header(title, 'utf-8').encode()
+
+    server = smtplib.SMTP(smtp, 25)  # SMTP协议默认端口是25
+    server.set_debuglevel(1)
+    server.login(from_user, from_password)
+    server.sendmail(from_user, [to_addr], msg.as_string())
 
 
-def QA_util_to_json_from_list(data):
-    pass
 
-
-def QA_util_to_list_from_pandas(data):
-    return np.asarray(data).tolist()
-
-
-def QA_util_to_list_from_numpy(data):
-    return data.tolist()
-
-
-def QA_util_to_pandas_from_json(data):
-
-    if isinstance(data, dict):
-        return pd.DataFrame(data=[data, ])
-    else:
-        return pd.DataFrame(data=[{'value': data}])
-
-
-def QA_util_to_pandas_from_list(data):
-    if isinstance(data, list):
-        return pd.DataFrame(data=data)

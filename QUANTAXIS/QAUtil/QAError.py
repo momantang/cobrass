@@ -21,47 +21,37 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+"""QUANTAXIS 的error类
 
-import csv
-import json
-
-import numpy as np
-import pandas as pd
+"""
 
 
-def QA_util_to_json_from_pandas(data):
-    """需要对于datetime 和date 进行转换, 以免直接被变成了时间戳"""
-    if 'datetime' in data.columns:
-        data.datetime = data.datetime.apply(str)
-    if 'date' in data.columns:
-        data.date = data.date.apply(str)
-    return json.loads(data.to_json(orient='records'))
+class QAError_fetch_data(RuntimeError):
+    def __init__(self, res):
+        RuntimeError.__init__(self, 'QA FETCH DATA ERROR', res)
 
 
-def QA_util_to_json_from_numpy(data):
-    pass
+class QAError_no_data_in_database(RuntimeError):
+    def __init__(self, res):
+        RuntimeError.__init__(self, 'QA FETCH NO DATA ERROR', res)
 
 
-def QA_util_to_json_from_list(data):
-    pass
+class QAError_crawl_data_web(RuntimeError):
+    def __init__(self, res):
+        RuntimeError.__init__(self, 'QA CRAWLER ERROR', res)
 
 
-def QA_util_to_list_from_pandas(data):
-    return np.asarray(data).tolist()
+class QAError_database_connection(RuntimeError):
+    def __init__(self, res):
+        RuntimeError.__init__(self, 'QA DATABASE CONNECTION ERROR', res)
 
 
-def QA_util_to_list_from_numpy(data):
-    return data.tolist()
+class QAError_web_connection(RuntimeError):
+    def __init__(self, res):
+        RuntimeError.__init__(self, 'QA WEB CONNECTION ERROR', res)
 
 
-def QA_util_to_pandas_from_json(data):
+class QAError_market_enging_down(RuntimeError):
+    def __init__(self, res):
+        RuntimeError.__init__(self, 'QA MARKET ENGING DOWN ERROR', res)
 
-    if isinstance(data, dict):
-        return pd.DataFrame(data=[data, ])
-    else:
-        return pd.DataFrame(data=[{'value': data}])
-
-
-def QA_util_to_pandas_from_list(data):
-    if isinstance(data, list):
-        return pd.DataFrame(data=data)

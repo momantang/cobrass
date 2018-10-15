@@ -1,4 +1,4 @@
-# coding:utf-8
+# coding=utf-8
 #
 # The MIT License (MIT)
 #
@@ -22,46 +22,48 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import csv
-import json
 
-import numpy as np
+import subprocess
+
 import pandas as pd
 
-
-def QA_util_to_json_from_pandas(data):
-    """需要对于datetime 和date 进行转换, 以免直接被变成了时间戳"""
-    if 'datetime' in data.columns:
-        data.datetime = data.datetime.apply(str)
-    if 'date' in data.columns:
-        data.date = data.date.apply(str)
-    return json.loads(data.to_json(orient='records'))
+from QUANTAXIS.QAUtil.QASetting import DATABASE
+from QUANTAXIS.QAUtil.QALogs import QA_util_log_info
 
 
-def QA_util_to_json_from_numpy(data):
-    pass
+def QA_util_mongo_initial(db=DATABASE):
+
+    db.drop_collection('stock_day')
+    db.drop_collection('stock_list')
+    db.drop_collection('stock_info')
+    db.drop_collection('trade_date')
+    db.drop_collection('stock_min')
+    db.drop_collection('stock_transaction')
+    db.drop_collection('stock_xdxr')
 
 
-def QA_util_to_json_from_list(data):
-    pass
 
 
-def QA_util_to_list_from_pandas(data):
-    return np.asarray(data).tolist()
+
+def QA_util_mongo_status(db=DATABASE):
+    QA_util_log_info(db.collection_names())
+    QA_util_log_info(db.last_status())
+    QA_util_log_info(subprocess.call('mongostat', shell=True))
 
 
-def QA_util_to_list_from_numpy(data):
-    return data.tolist()
+def QA_util_mongo_infos(db=DATABASE):
+
+    data_struct = []
+
+    for item in db.collection_names():
+        value = []
+        value.append(item)
+        value.append(eval('db.' + str(item) + '.find({}).count()'))
+        value.append(list(eval('db.' + str(item) + '.find_one()').keys()))
+        data_struct.append(value)
+    return pd.DataFrame(data_struct, columns=['collection_name', 'counts', 'columns']).set_index('collection_name')
 
 
-def QA_util_to_pandas_from_json(data):
-
-    if isinstance(data, dict):
-        return pd.DataFrame(data=[data, ])
-    else:
-        return pd.DataFrame(data=[{'value': data}])
-
-
-def QA_util_to_pandas_from_list(data):
-    if isinstance(data, list):
-        return pd.DataFrame(data=data)
+if __name__ == '__main__':
+    print(QA_util_mongo_infos())
+    QA_util_mongo_status()

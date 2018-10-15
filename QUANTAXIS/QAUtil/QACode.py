@@ -1,4 +1,4 @@
-# coding:utf-8
+#coding :utf-8
 #
 # The MIT License (MIT)
 #
@@ -22,46 +22,42 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import csv
-import json
-
-import numpy as np
-import pandas as pd
+"""
+该文件主要是负责一些对于code名称的处理
+"""
 
 
-def QA_util_to_json_from_pandas(data):
-    """需要对于datetime 和date 进行转换, 以免直接被变成了时间戳"""
-    if 'datetime' in data.columns:
-        data.datetime = data.datetime.apply(str)
-    if 'date' in data.columns:
-        data.date = data.date.apply(str)
-    return json.loads(data.to_json(orient='records'))
+def QA_util_code_tostr(code):
+    """
+    将所有沪深股票从数字转化到6位的代码
+
+    因为有时候在csv等转换的时候,诸如 000001的股票会变成office强制转化成数字1
+
+    """
+    return '00000{}'.format(str(code)[0:6])[-6:]
 
 
-def QA_util_to_json_from_numpy(data):
-    pass
+def QA_util_code_tolist(code,auto_fill=True):
+    """转换code==> list
+    
+    Arguments:
+        code {[type]} -- [description]
+    
+    Keyword Arguments:
+        auto_fill {bool} -- 是否自动补全(一般是用于股票/指数/etf等6位数,期货不适用) (default: {True})
+    
+    Returns:
+        [list] -- [description]
+    """
 
+    if isinstance(code, str):
+        if auto_fill:
+            return [QA_util_code_tostr(code)]
+        else:
+            return [code]
 
-def QA_util_to_json_from_list(data):
-    pass
-
-
-def QA_util_to_list_from_pandas(data):
-    return np.asarray(data).tolist()
-
-
-def QA_util_to_list_from_numpy(data):
-    return data.tolist()
-
-
-def QA_util_to_pandas_from_json(data):
-
-    if isinstance(data, dict):
-        return pd.DataFrame(data=[data, ])
-    else:
-        return pd.DataFrame(data=[{'value': data}])
-
-
-def QA_util_to_pandas_from_list(data):
-    if isinstance(data, list):
-        return pd.DataFrame(data=data)
+    elif isinstance(code, list):
+        if auto_fill:
+            return [QA_util_code_tostr(item) for item in code]
+        else:
+            return [item for item in code]

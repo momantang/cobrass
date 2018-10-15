@@ -21,47 +21,43 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
 import csv
-import json
-
-import numpy as np
-import pandas as pd
 
 
-def QA_util_to_json_from_pandas(data):
-    """需要对于datetime 和date 进行转换, 以免直接被变成了时间戳"""
-    if 'datetime' in data.columns:
-        data.datetime = data.datetime.apply(str)
-    if 'date' in data.columns:
-        data.date = data.date.apply(str)
-    return json.loads(data.to_json(orient='records'))
+def QA_util_save_csv(data, name, column=None, location=None):
+    # 重写了一下保存的模式
+    # 增加了对于可迭代对象的判断 2017/8/10
+    """
+    QA_util_save_csv(data,name,column,location)
 
+    将list保存成csv
+    第一个参数是list
+    第二个参数是要保存的名字
+    第三个参数是行的名称(可选)
+    第四个是保存位置(可选)
 
-def QA_util_to_json_from_numpy(data):
-    pass
-
-
-def QA_util_to_json_from_list(data):
-    pass
-
-
-def QA_util_to_list_from_pandas(data):
-    return np.asarray(data).tolist()
-
-
-def QA_util_to_list_from_numpy(data):
-    return data.tolist()
-
-
-def QA_util_to_pandas_from_json(data):
-
-    if isinstance(data, dict):
-        return pd.DataFrame(data=[data, ])
+    @yutiansut
+    """
+    assert isinstance(data, list)
+    if location is None:
+        path = './' + str(name) + '.csv'
     else:
-        return pd.DataFrame(data=[{'value': data}])
+        path = location + str(name) + '.csv'
+    with open(path, 'w', newline='') as f:
+        csvwriter = csv.writer(f)
+        if column is None:
+            pass
+        else:
+            csvwriter.writerow(column)
+
+        for item in data:
+
+            if isinstance(item, list):
+                csvwriter.writerow(item)
+            else:
+                csvwriter.writerow([item])
 
 
-def QA_util_to_pandas_from_list(data):
-    if isinstance(data, list):
-        return pd.DataFrame(data=data)
+if __name__ == '__main__':
+    QA_util_save_csv(['a', 'v', 2, 3], 'test')
+    QA_util_save_csv([['a', 'v', 2, 3]], 'test2')

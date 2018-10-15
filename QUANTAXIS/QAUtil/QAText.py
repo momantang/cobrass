@@ -1,4 +1,4 @@
-# coding:utf-8
+# coding=utf-8
 #
 # The MIT License (MIT)
 #
@@ -22,46 +22,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import csv
-import json
+"""
+这里主要是一些关于文本的代码
 
-import numpy as np
-import pandas as pd
+文本分词
+模糊查询
+正则匹配
+"""
 
+import jieba
+import re
+import fuzzyfinder
 
-def QA_util_to_json_from_pandas(data):
-    """需要对于datetime 和date 进行转换, 以免直接被变成了时间戳"""
-    if 'datetime' in data.columns:
-        data.datetime = data.datetime.apply(str)
-    if 'date' in data.columns:
-        data.date = data.date.apply(str)
-    return json.loads(data.to_json(orient='records'))
-
-
-def QA_util_to_json_from_numpy(data):
-    pass
+# 🛠TODO: stock_list中有股票的中文/stock_block中有版块的中文 需要将他们做一些模糊查询
 
 
-def QA_util_to_json_from_list(data):
-    pass
 
+def split_word(input_text,cutall=False):
+    """
+    使用jieba分词 将输入的语句分词
+    """
 
-def QA_util_to_list_from_pandas(data):
-    return np.asarray(data).tolist()
-
-
-def QA_util_to_list_from_numpy(data):
-    return data.tolist()
-
-
-def QA_util_to_pandas_from_json(data):
-
-    if isinstance(data, dict):
-        return pd.DataFrame(data=[data, ])
-    else:
-        return pd.DataFrame(data=[{'value': data}])
-
-
-def QA_util_to_pandas_from_list(data):
-    if isinstance(data, list):
-        return pd.DataFrame(data=data)
+    return jieba.cut(input_text,cut_all=cutall)
