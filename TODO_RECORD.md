@@ -47,7 +47,7 @@ conn.db.tickdata.insert(json.loads(df.to_json(orient='records')))
 - [easyhistory](https://github.com/shidenggui/easyhistory)
 - [easyquotation](https://github.com/shidenggui/easyquotation)
 - [tushare]() [pro]()
--
+- https://github.com/sammchardy/python-binance
 
 QASetting 中 严重参考https://github.com/mtik00/cronner实现
 

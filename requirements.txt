@@ -53,6 +53,11 @@ pyecharts_jupyter_installer
 jieba
 fuzzyfinder
 
+xlrd # excel support
+jqdatasdk
+
+
+
 
 
 
