@@ -4,7 +4,20 @@ cobrass project
 采用abupy 源代码，并修改成matplotlib 3 版本
 
 
-####关注股票：
+### 数据库配置
+####**mysql**
+
+####**postgresql**
+
+####**monogodb**
+
+启动：  
+```
+mongod --dbpath /User/momantang/dev/data/db
+
+```
+###关注股票：
+
 - 
 - 格力电器
 - 601318 中国平安

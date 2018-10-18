@@ -10,11 +10,12 @@ import requests
 from dateutil.tz import *
 
 from QUANTAXIS.QAFetch import QATushare
+from QUANTAXIS.QAFetch import QATdx
 from QUANTAXIS.QAUtil.QABar import QA_util_make_min_index, trade_date_sse
 from QUANTAXIS.QAFetch.QACrawler import QA_fetch_get_sh_margin, QA_fetch_get_sz_margin
 from QUANTAXIS.QAFetch.QAThs import QA_fetch_get_stock_day
 
-from QUANTAXIS.QAFetch.QATdx import ping
+from QUANTAXIS.QAFetch.QATdx import ping, select_best_ip, QA_fetch_get_security_bars
 from QUANTAXIS.QAUtil.host import ip
 
 import pandas as pd
@@ -22,10 +23,14 @@ from requests.exceptions import ConnectTimeout
 
 from urllib.parse import urljoin
 from QUANTAXIS.QAUtil.QAcrypto import TIMEOUT, ILOVECHINA
-from QUANTAXIS.QAFetch.QAfinancial import parse_all,download_financialzip
+from QUANTAXIS.QAFetch.QAfinancial import parse_all, download_financialzip
+
+import QUANTAXIS as QA
 
 test_qatdx = False
 test_QAbinance = False
+test_QATushare = False
+test_DataFetch = True
 
 proxies = {
     "http": "socks5://127.0.0.1:1086",
@@ -33,13 +38,28 @@ proxies = {
 }
 
 if __name__ == '__main__':
-    #download_financialzip()
-    df=parse_all()
-    print(df.shape)
-    print(df.head())
-    print(df.tail())
-    resp = requests.get("https://www.facebook.com/", proxies=proxies, timeout=5)
-    #print(resp.text)
+    if test_DataFetch:
+        QA.QAUtil.QA_util_log_info('日线数据')
+        QA.QAUtil.QA_util_log_info('不复圈')
+        #data = QA.QAFetch.QATdx.QA_fetch_get_stock_day('00001', '1900-01-01', '2019-01-31')
+        data = QA.QAFetch.QATdx.QA_fetch_get_stock_day('00001', '2017-01-01', '2017-01-31', '01')
+        print(data.shape)
+        print(data.head())
+        print(data.tail())
+
+    if test_QATushare:
+        from local import local_setting as ls
+        from QUANTAXIS.QAFetch.QATushare import set_token
+
+        print(ls.LocalSetting.tushare_token)
+        set_token(token=ls.LocalSetting.tushare_token)
+    # download_financialzip()
+    # df=parse_all()
+    # print(df.shape)
+    # print(df.head())
+    # print(df.tail())
+    # resp = requests.get("https://www.facebook.com/", proxies=proxies, timeout=5)
+    # print(resp.text)
     if test_qatdx:
         for i in ip:
             ping(i[1])
@@ -60,7 +80,6 @@ if __name__ == '__main__':
         print(data[0])
         print(data[-1])
 
-print(QATushare.set_token(''))
 # print(QA_fetch_get_sz_margin('2018-01-25'))
 # print(QA_fetch_get_sh_margin('2018-01-25'))
 # print(QA_fetch_get_stock_day('000001', '2016-05-01', '2017-07-01', '01'))
