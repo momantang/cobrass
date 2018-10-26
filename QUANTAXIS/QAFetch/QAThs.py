@@ -37,7 +37,7 @@ def QA_fetch_get_stock_day(code, start, end, if_fq='00'):
         for i2 in range(start_year + 1, end_year + 1):
             print(i2)
             print(if_fq)
-            print(QA_fetch_get_stock_day_in_year(code,i2,if_fq))
+            print(QA_fetch_get_stock_day_in_year(code, i2, if_fq))
             data = pd.concat([data, QA_fetch_get_stock_day_in_year(code, i2, if_fq)], axis=0)
     else:
         pass
@@ -52,10 +52,12 @@ def QA_fetch_get_stock_block():
     ths的版块数据
     :return:
     """
-    url = "https://gitee.com/yutiansut/QADATA/raw/master/ths_block.csv"
+    # url = "https://gitee.com/yutiansut/QADATA/raw/master/ths_block.csv"
+    url = "/Users/momantang/PycharmProjects/cobrass/QUANTAXIS/QAFetch/ths_block.csv"
     try:
         return pd.read_csv(url).set_index('code', drop=False)
-    except:
+    except Exception as e:
+        print(e)
         return None
     # url_list = ['gn', 'dy', 'thshy', 'zjhhy']  # 概念/地域/同花顺板块/证监会板块
     # data = []

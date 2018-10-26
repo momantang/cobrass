@@ -13,7 +13,7 @@ cobrass project
 
 启动：  
 ```
-mongod --dbpath /User/momantang/dev/data/db
+mongod --dbpath /Users/momantang/dev/data/db
 
 ```
 ###关注股票：

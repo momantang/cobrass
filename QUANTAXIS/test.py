@@ -25,12 +25,14 @@ from urllib.parse import urljoin
 from QUANTAXIS.QAUtil.QAcrypto import TIMEOUT, ILOVECHINA
 from QUANTAXIS.QAFetch.QAfinancial import parse_all, download_financialzip
 
+from QUANTAXIS.QASU.save_tdx import now_time
+
 import QUANTAXIS as QA
 
 test_qatdx = False
 test_QAbinance = False
 test_QATushare = False
-test_DataFetch = True
+test_DataFetch = False
 
 proxies = {
     "http": "socks5://127.0.0.1:1086",
@@ -38,11 +40,15 @@ proxies = {
 }
 
 if __name__ == '__main__':
+    if True:
+        print(now_time())
+
     if test_DataFetch:
         QA.QAUtil.QA_util_log_info('日线数据')
         QA.QAUtil.QA_util_log_info('不复圈')
-        #data = QA.QAFetch.QATdx.QA_fetch_get_stock_day('00001', '1900-01-01', '2019-01-31')
-        data = QA.QAFetch.QATdx.QA_fetch_get_stock_day('00001', '2017-01-01', '2017-01-31', '01')
+        # data = QA.QAFetch.QATdx.QA_fetch_get_stock_day('00001', '1900-01-01', '2019-01-31')
+        # data = QA.QAFetch.QATdx.QA_fetch_get_stock_day('00001', '2017-01-01', '2017-01-31', '01')
+        data = QA.QAFetch.QATdx.QA_fetch_get_stock_min('000001', '2017-07-01', '2017-08-01', '5min')
         print(data.shape)
         print(data.head())
         print(data.tail())
