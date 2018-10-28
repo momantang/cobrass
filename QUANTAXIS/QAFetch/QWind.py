@@ -33,6 +33,8 @@ QAWind is under the [QAStandard#0.0.2 @101-1],[QAStandard#0.0.2 @501-0] protocol
 
 @last modified:2017/4/5
 """
+import sys
+
 import datetime
 import re
 import time
@@ -44,7 +46,6 @@ import pymongo
 from QUANTAXIS.QAUtil import QA_util_date_valid, QA_util_log_info
 
 from QUANTAXIS.QAFetch import data_list as data_list
-
 
 def QA_fetch_get_stock_info(name, startDate, endDate):
     try:

@@ -1,6 +1,7 @@
 from QUANTAXIS.QAFetch import QATdx as QATdx
 from QUANTAXIS.QAFetch import QATushare as QATushare
 from QUANTAXIS.QAFetch import QAThs
+from QUANTAXIS.QAFetch import QWind
 
 
 def use(package):

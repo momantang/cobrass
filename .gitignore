@@ -114,4 +114,6 @@ migrations/
 
 settings.py
 
+#mac os
+.DS_Store
 
