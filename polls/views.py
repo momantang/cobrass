@@ -3,7 +3,7 @@ from django.template import loader
 from django.http import Http404, HttpResponseRedirect
 from django.views import generic
 from django.urls import reverse
-from .models import Question
+from .models import Question, Choice
 
 
 class IndexView(generic.ListView):

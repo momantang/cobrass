@@ -16,7 +16,7 @@ def get_headers(report_date,headers):
     # 设置中文
     for (key,value) in headers.items():
         options.add_argument('%s="%s"' % (key, value))
-    driver = webdriver.Chrome(chrome_options=options)
+    driver = webdriver.Chrome(executable_path='/Users/momantang/work/chromedriver',chrome_options=options)
     driver.get(url)
     cookies=driver.get_cookies()
     driver.quit()
@@ -40,7 +40,7 @@ def read_financial_report_date(report_date, headers = None, psize= 2000,vname="p
     for (key,value) in headers.items():
         options.add_argument('%s="%s"' % (key, value))
 
-    driver = webdriver.Chrome(chrome_options=options)
+    driver = webdriver.Chrome(executable_path='/Users/momantang/work/chromedriver',chrome_options=options)
     driver.get(strUrl1)
     soup = BeautifulSoup(driver.page_source, "html.parser").body.text
     driver.quit()

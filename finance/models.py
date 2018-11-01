@@ -47,6 +47,14 @@ class StockIndex(models.Model):
     price = models.FloatField(u'价钱', null=True)
 
 
+class CronJob(models.Model):
+    job_name = models.CharField(u'job名称', max_length=30, unique=True)
+    frequency = models.CharField(u'频率', max_length=30)
+    frequency_cron = models.CharField(u'频率cron', max_length=50)
+    method = models.CharField(u'方法', max_length=100)
+    describe = models.CharField(u'描述', max_length=200)
+
+
 # 记录定时任务
 class CrontabAction(models.Model):
     date = models.DateTimeField(u'执行时间')

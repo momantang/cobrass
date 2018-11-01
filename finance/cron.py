@@ -10,6 +10,7 @@ from finance.models import Stock, CrontabAction, MarketSnapshot
 import datetime
 import pytdx
 import easyquotation
+from utils.timeutils import is_tradetime_now
 
 from local import local_setting as ls
 from django.utils import dates
@@ -39,18 +40,19 @@ def down_market_snapshot(save=True):
     :return: 市场快照
     """
 
-    date = datetime.datetime.now()
-    dateStr = date.strftime('%Y-%m-%d_%H-%M-%S')
-    quotation = easyquotation.use('sina')
-    snapshot = quotation.market_snapshot(prefix=True)
-    market_snapshot = MarketSnapshot(date=date, context=snapshot)
-    market_snapshot.save()
-    df_snapshot = pd.DataFrame.from_dict(snapshot)
-    df_snapshot = df_snapshot.T
-    df_snapshot.index.name = 'code'
-    if save:
-        df_snapshot.to_csv(ls.LocalSetting.data_path + "mark_snapshot/" + dateStr + ".csv")
-    return df_snapshot
+    if is_tradetime_now():
+        date = datetime.datetime.now()
+        dateStr = date.strftime('%Y-%m-%d_%H-%M-%S')
+        quotation = easyquotation.use('sina')
+        snapshot = quotation.market_snapshot(prefix=True)
+        market_snapshot = MarketSnapshot(date=date, context=snapshot)
+        market_snapshot.save()
+        df_snapshot = pd.DataFrame.from_dict(snapshot)
+        df_snapshot = df_snapshot.T
+        df_snapshot.index.name = 'code'
+        if save:
+            df_snapshot.to_csv(ls.LocalSetting.data_path + "mark_snapshot/" + dateStr + ".csv")
+        return df_snapshot
 
 
 def down_stock_index_snapshot(save=True):

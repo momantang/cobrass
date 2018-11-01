@@ -332,7 +332,7 @@ def QA_fetch_get_stock_realtime(code=['000001', '000002'], ip=None, port=None):
     api = TdxHq_API()
     __data = pd.DataFrame()
     with api.connect(ip, port):
-        code = [code] if isinstance(code.str) else code
+        code = [code] if isinstance(code, str) else code
         for id_ in range(int(len(code) / 80) + 1):
             __data = __data.append(api.to_df(
                 api.get_security_quotes([(_select_market_code(x), x) for x in code[80 * id_:80 * (id_ + 1)]])))

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}
+    手写定时任务配置
+{% endblock %}
+{% block css %}
+    <style>
+        .cronjon table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .cronjon td {
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+{% block mainbody %}
+    <!--
+     <head>
+         <meta charset="UTF-8">
+         <title>手写配置定时任务</title>
+         <style>
+             table, th, td {
+                 border: 1px solid black;
+             }
+
+             td {
+                 text-align: center;
+                 min-width: 180px;
+             }
+         </style>
+     </head>
+     <body>
+     -->
+    <h1><a href="/update_cronjob">同步定时任务到数据库</a></h1>
+    <code>
+        python manage.py crontab add </code><br>
+    show current active jobs of this project:<br>
+
+    <code> python manage.py crontab show</code><br>
+    removing all defined jobs is straightforward:<br>
+    <code>
+        python manage.py crontab remove
+
+    </code>
+    {% if cronjob_list %}
+        <table style="width: 100%">
+            <thead>
+            <td>id</td>
+            <td>任务名称</td>
+            <td>任务频率</td>
+            <td>频率</td>
+            <td>执行方法</td>
+            <td>说明</td>
+            </thead>
+            <tbody>
+            {% for cronjob in cronjob_list %}
+                <tr>
+                    <td>{{ cronjob.id }}</td>
+                    <td>{{ cronjob.job_name }}</td>
+                    <td>{{ cronjob.frequency }}</td>
+                    <td>{{ cronjob.frequency_cron }}</td>
+                    <td>{{ cronjob.method }}</td>
+                    <td>{{ cronjob.describe }}</td>
+                    <!--
+                <a href="/cronjob/{{ cronjob.id }}/">{{ cronjob.job_name }}</a>
+                --></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <ul>
+
+        </ul>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock %}

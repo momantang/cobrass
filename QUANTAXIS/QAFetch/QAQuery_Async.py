@@ -154,4 +154,3 @@ if __name__ == "__main__":
     # loop = asyncio.get_event_loop()
     # print(id(loop))
     # loop 内存地址一样 没有被销毁
-s

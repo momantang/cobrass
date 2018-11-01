@@ -23,6 +23,7 @@ cache_path = generate_path('cache')
 log_path = generate_path('log')
 download_path = generate_path('downloads')
 strategy_path = generate_path('strategy')
+chromedriver_path = "/Users/momantang/work/chromedriver"
 
 make_dir(qa_path, exist_ok=True)
 make_dir(setting_path, exist_ok=True)
