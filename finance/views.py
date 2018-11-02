@@ -6,12 +6,15 @@ from django.http import Http404, HttpResponseRedirect
 from django.views import generic
 from django.conf import settings
 
+import easyquotation
+
 
 # Create your views here.
 
 def index(request):
     # stock_index_snapshot = StockIndexSnapShot.objects.last()
-
+    quotation = easyquotation.use('sina')
+    snapshot = quotation.market_snapshot(prefix=True)
     return render(request, 'finance/index.html')
 
 
