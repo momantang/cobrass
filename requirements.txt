@@ -66,6 +66,9 @@ webdriver-manager
 
 pytz
 
+#quantaxis_run
+celery==3.1.25
+
 
 
 

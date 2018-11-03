@@ -38,7 +38,7 @@ from tornado.web import RequestHandler
 from tornado.websocket import WebSocketHandler
 
 from QAWebServer.util import (APPLICATION_JSON, APPLICATION_XML, TEXT_XML,
-                                  convert)
+                              convert)
 
 """
 基础类
@@ -56,14 +56,15 @@ class QABaseHandler(RequestHandler):
 
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "*")  # 这个地方可以写域名
-        #self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        # self.set_header("Access-Control-Allow-Headers", "x-requested-with")
         self.set_header('Access-Control-Allow-Methods',
                         'POST, GET, OPTIONS, DELETE, PUT, PATCH')
-        self.set_header('Access-Control-Allow-Headers', '*')
+        self.set_header('Access-Control-Allow-Headers',
+                        "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,HTTP2-Settings")
         self.set_header(
             'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
         self.set_header('Server', 'QUANTAXISBACKEND')
-        #headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        # headers.set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
         # self.Content-Type: text/html; charset=utf-8
 
     def post(self):
@@ -98,7 +99,8 @@ class QAWebSocketHandler(WebSocketHandler):
                         'POST, GET, OPTIONS, DELETE, PUT, PATCH')
         self.set_header('Access-Control-Max-Age',
                         999999999999999999999999999999999)
-        self.set_header('Access-Control-Allow-Headers', '*')
+        self.set_header('Access-Control-Allow-Headers',
+                        "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,HTTP2-Settings")
         self.set_header('Server', 'QUANTAXISBACKEND')
 
     def open(self):
@@ -142,7 +144,7 @@ def config(func, method, **kwparams):
 
     operation.func_name = func.__name__
     operation._func_params = inspect.getargspec(func).args[1:]
-    operation._types = types or [str]*len(operation._func_params)
+    operation._types = types or [str] * len(operation._func_params)
     operation._service_name = re.findall(r'(?<=/)\w+', path)
     operation._service_params = re.findall(r'(?<={)\w+', path)
     operation._method = method
@@ -155,43 +157,53 @@ def config(func, method, **kwparams):
 
     if not operation._produces in [APPLICATION_JSON, APPLICATION_XML, TEXT_XML, None]:
         raise PyRestfulException(
-            'The media type used do not exist : '+operation.func_name)
+            'The media type used do not exist : ' + operation.func_name)
 
     return operation
 
 
 def get(*params, **kwparams):
     """ Decorator for config a python function like a Rest GET verb	"""
+
     def method(f):
         return config(f, 'GET', **kwparams)
+
     return method
 
 
 def post(*params, **kwparams):
     """ Decorator for config a python function like a Rest POST verb """
+
     def method(f):
         return config(f, 'POST', **kwparams)
+
     return method
 
 
 def put(*params, **kwparams):
     """ Decorator for config a python function like a Rest PUT verb	"""
+
     def method(f):
         return config(f, 'PUT', **kwparams)
+
     return method
 
 
 def patch(*params, **kwparams):
     """ Decorator for config a python function like a Rest PATCH verb """
+
     def method(f):
         return config(f, 'PATCH', **kwparams)
+
     return method
 
 
 def delete(*params, **kwparams):
     """ Decorator for config a python function like a Rest PUT verb	"""
+
     def method(f):
         return config(f, 'DELETE', **kwparams)
+
     return method
 
 
@@ -227,7 +239,7 @@ class QARestHandler(RequestHandler):
 
         # Get all funcion names configured in the class RestHandler
         functions = list(filter(lambda op: hasattr(getattr(self, op), '_service_name')
-                                == True and inspect.ismethod(getattr(self, op)) == True, dir(self)))
+                                           == True and inspect.ismethod(getattr(self, op)) == True, dir(self)))
         # Get all http methods configured in the class RestHandler
         http_methods = list(map(lambda op: getattr(
             getattr(self, op), '_method'), functions))
@@ -240,9 +252,9 @@ class QARestHandler(RequestHandler):
             service_params = getattr(operation, '_service_params')
             # If the _types is not specified, assumes str types for the params
             params_types = getattr(operation, "_types") or [
-                str]*len(service_params)
+                str] * len(service_params)
             params_types = params_types + [str] * \
-                (len(service_params)-len(params_types))
+                           (len(service_params) - len(params_types))
             produces = getattr(operation, '_produces')
             consumes = getattr(operation, '_consumes')
             services_from_request = list(
@@ -251,7 +263,8 @@ class QARestHandler(RequestHandler):
             manual_response = getattr(operation, '_manual_response')
             catch_fire = getattr(operation, '_catch_fire')
 
-            if operation._method == self.request.method and service_name == services_from_request and len(service_params) + len(service_name) == len(services_and_params):
+            if operation._method == self.request.method and service_name == services_from_request and len(
+                    service_params) + len(service_name) == len(services_and_params):
                 try:
                     params_values = self._find_params_value_of_url(
                         service_name, request_path) + self._find_params_value_of_arguments(operation)
@@ -291,7 +304,8 @@ class QARestHandler(RequestHandler):
 
                     if produces == APPLICATION_JSON and hasattr(response, '__module__'):
                         response = convert2JSON(response)
-                    elif produces == APPLICATION_XML and hasattr(response, '__module__') and not isinstance(response, xml.dom.minidom.Document):
+                    elif produces == APPLICATION_XML and hasattr(response, '__module__') and not isinstance(response,
+                                                                                                            xml.dom.minidom.Document):
                         response = convert2XML(response)
 
                     if produces == APPLICATION_JSON and isinstance(response, dict):
@@ -340,8 +354,8 @@ class QARestHandler(RequestHandler):
                 else:
                     values.append(None)
         elif len(self.request.arguments) == 0 and len(operation._query_params) > 0:
-            values = [None]*(len(operation._func_params) -
-                             len(operation._service_params))
+            values = [None] * (len(operation._func_params) -
+                               len(operation._service_params))
         return values
 
     def _convert_params_values(self, values_list, params_types):
@@ -360,7 +374,7 @@ class QARestHandler(RequestHandler):
         """ Generates the custom HTTP error """
         self.clear()
         self.set_status(status)
-        self.write('<html><body>'+str(msg)+'</body></html>')
+        self.write('<html><body>' + str(msg) + '</body></html>')
         self.finish()
 
     @classmethod

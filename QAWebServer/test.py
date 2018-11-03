@@ -1,13 +1,18 @@
-import os
-import sys
-import platform
 
-if platform.system() == 'Darwin':
-    print('Darwin')
-    sys.path.insert(0, '/Users/momantang/PyCharmProjects/cobrass')
-from QAWebServer.QA_Web import main
-from QAWebServer.fetch_block import get_block, get_name
+import shlex
+import subprocess
 
-if __name__ == "__main__":
-    print(get_block(['上海国资改革', '阿里巴巴概念']))
-    main()
+if __name__ == '__main__':
+    shell_cmd = 'python "E:\\quantaxis\\EXAMPLE\\test_backtest\\simplebacktest.py"'
+    cmd = shlex.split(shell_cmd)
+    p = subprocess.Popen(
+        cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    while p.poll() is None:
+        line = p.stdout.readline()
+        line = line.strip()
+        if line:
+            print('Subprogram output: [{}]'.format(line))
+    if p.returncode == 0:
+        print('Subprogram success')
+    else:
+        print('Subprogram failed')

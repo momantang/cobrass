@@ -9,7 +9,19 @@ from tornado.web import Application, RequestHandler, authenticated
 from tornado.options import define, parse_command_line, parse_config_file, options
 
 from QAWebServer.basehandles import QABaseHandler
-from QAWebServer.datahandles import StockdayHandler
+from QAWebServer.commandhandler import CommandHandler, RunnerHandler
+from QAWebServer.datahandles import (StockBlockHandler, StockCodeHandler,
+                                     StockdayHandler, StockminHandler,
+                                     StockPriceHandler)
+from QAWebServer.quotationhandles import (MonitorSocketHandler,
+                                          RealtimeSocketHandler,
+                                          SimulateSocketHandler)
+from QAWebServer.strategyhandlers import BacktestHandler, StrategyHandler
+from QAWebServer.tradehandles import AccModelHandler, TradeInfoHandler
+from QAWebServer.userhandles import (PersonBlockHandler, SigninHandler,
+                                     SignupHandler)
+
+from QAWebServer.jobhandler import JOBHandler
 from tornado.web import RequestHandler
 
 from QUANTAXIS.QAUtil.QASetting import QASETTING
@@ -24,6 +36,10 @@ class INDEX(RequestHandler):
 handlers = [
     (r"/", INDEX),
     (r"/marketdata/stock/day", StockdayHandler),
+    (r"/marketdata/stock/min", StockminHandler),
+    (r"/marketdata/stock/block", StockBlockHandler),
+    (r"/marketdata/stock/price", StockPriceHandler),
+    (r"/marketdata/stock/code", StockCodeHandler),
 ]
 
 
