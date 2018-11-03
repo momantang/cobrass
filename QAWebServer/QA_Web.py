@@ -1,13 +1,11 @@
 import os
 import sys
-
-sys.path.insert(0, '/Users/momantang/')
-
 import tornado
-import tornado.httpserver
+
 from tornado.web import Application, RequestHandler, authenticated
 from tornado.options import define, parse_command_line, parse_config_file, options
-
+from QAWebServer.arphandles import (AccountHandler, MemberHandler,
+                                    RiskHandler)
 from QAWebServer.basehandles import QABaseHandler
 from QAWebServer.commandhandler import CommandHandler, RunnerHandler
 from QAWebServer.datahandles import (StockBlockHandler, StockCodeHandler,
@@ -22,14 +20,15 @@ from QAWebServer.userhandles import (PersonBlockHandler, SigninHandler,
                                      SignupHandler)
 
 from QAWebServer.jobhandler import JOBHandler
-from tornado.web import RequestHandler
-
+from tornado_http2.server import Server
 from QUANTAXIS.QAUtil.QASetting import QASETTING
 
 
-class INDEX(RequestHandler):
+class INDEX(QABaseHandler):
 
     def get(self):
+        self.set_header(
+            'Content-Type', 'text/html; charset=UTF-8')
         self.render("index.html")
 
 
@@ -40,6 +39,22 @@ handlers = [
     (r"/marketdata/stock/block", StockBlockHandler),
     (r"/marketdata/stock/price", StockPriceHandler),
     (r"/marketdata/stock/code", StockCodeHandler),
+    (r"/user/signin", SigninHandler),
+    (r"/user/signup", SignupHandler),
+    (r"/user/blocksetting", PersonBlockHandler),
+    (r"/strategy/content", StrategyHandler),
+    (r"/backtest/content", BacktestHandler),
+    (r"/trade", AccModelHandler),
+    (r"/tradeinfo", TradeInfoHandler),
+    (r"/realtime", RealtimeSocketHandler),
+    (r"/simulate", SimulateSocketHandler),
+    (r"/monitor", MonitorSocketHandler),
+    (r"/accounts", AccountHandler),
+    (r"/accounts/all", MemberHandler),
+    (r"/risk", RiskHandler),
+    (r"/command/run", CommandHandler),
+    (r"/command/runbacktest", RunnerHandler),
+    (r"/command/jobmapper", JOBHandler)
 ]
 
 

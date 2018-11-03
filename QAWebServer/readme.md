@@ -1,6 +1,8 @@
 # QUANTAXIS_WEBSERVER
 quantaxis_webserver
 
+https://github.com/mhammond/pywin32
+
 
 QUANTAXIS的持久化及后端解决方案
 

@@ -8,6 +8,8 @@ if platform.system() == 'Darwin':
 from QAWebServer.QA_Web import main
 from QAWebServer.fetch_block import get_block, get_name
 
+# from QAWebServer.quotationhandles import main
+
 if __name__ == "__main__":
-    print(get_block(['上海国资改革', '阿里巴巴概念']))
+    # print(get_block(['上海国资改革', '阿里巴巴概念']))
     main()

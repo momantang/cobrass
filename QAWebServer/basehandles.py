@@ -71,6 +71,7 @@ class QABaseHandler(RequestHandler):
         self.write('some post')
 
     def get(self):
+
         self.write('some get')
 
     def options(self):

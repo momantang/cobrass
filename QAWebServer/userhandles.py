@@ -48,6 +48,8 @@ class SigninHandler(QABaseHandler):
         if res is not None:
             self.write('SUCCESS')
         else:
+            self.set_header(
+                'Content-Type', 'text/html; charset=UTF-8')
             self.write('WRONG')
 
 
