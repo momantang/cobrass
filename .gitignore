@@ -109,7 +109,6 @@ local/
 tk.csv
 data/
 *.config
-config/
 migrations/
 
 settings.py
