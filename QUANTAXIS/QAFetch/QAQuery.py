@@ -72,7 +72,7 @@ def QA_fetch_stock_min(code, start, end, format='numpy', frequence='1min', colle
         print(
             "QA Error QA_fetch_stock_min parameter frequence=%s is none of 1min 1m 5min 5m 15min 15m 30min 30m 60min 60m" % frequence)
     __data = []
-    code = QA_util_code_tolist()
+    code = QA_util_code_tolist(code)
     cursor = collections.find({
         'code': {'$in': code},
         'time_stamp': {"$gte": QA_util_time_stamp(start), "$lte": QA_util_time_stamp(end)},
