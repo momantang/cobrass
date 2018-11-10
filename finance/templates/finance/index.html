@@ -3,7 +3,61 @@
     Finance 模块
 {% endblock %}
 {% block mainbody %}
-    <h1>上证指数：</h1>
-    <h1>深证指数：</h1>
-    <h1>创业板指数：</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>指数</th>
+            <th>最新</th>
+            <th>开盘</th>
+            <th>最高</th>
+            <th>最低</th>
+            <th>昨收</th>
+            <th>时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ dicts.name.sh000001 }}</td>
+            <td>{{ dicts.now.sh000001 }}</td>
+            <td>{{ dicts.open.sh000001 }}</td>
+            <td>{{ dicts.high.sh000001 }}</td>
+            <td>{{ dicts.low.sh000001 }}</td>
+            <td>{{ dicts.close.sh000001 }}</td>
+            <td>{{ dicts.time.sh000001 }}</td>
+        </tr>
+        <tr>
+            <td>{{ dicts.name.sz399001 }}</td>
+            <td>{{ dicts.now.sz399001 }}</td>
+            <td>{{ dicts.open.sz399001 }}</td>
+            <td>{{ dicts.high.sz399001 }}</td>
+            <td>{{ dicts.low.sz399001 }}</td>
+            <td>{{ dicts.close.sz399001 }}</td>
+            <td>{{ dicts.time.sz399001 }}</td>
+        </tr>
+        <tr>
+            <td>{{ dicts.name.sh000300 }}</td>
+            <td>{{ dicts.now.sh000300 }}</td>
+            <td>{{ dicts.open.sh000300 }}</td>
+            <td>{{ dicts.high.sh000300 }}</td>
+            <td>{{ dicts.low.sh000300 }}</td>
+            <td>{{ dicts.close.sh000300 }}</td>
+            <td>{{ dicts.time.sh000300 }}</td>
+        </tr>
+        <tr>
+            <td>{{ dicts.name.sz399006 }}</td>
+            <td>{{ dicts.now.sz399006 }}</td>
+            <td>{{ dicts.open.sz399006 }}</td>
+            <td>{{ dicts.high.sz399006 }}</td>
+            <td>{{ dicts.low.sz399006 }}</td>
+            <td>{{ dicts.close.sz399006 }}</td>
+            <td>{{ dicts.time.sz399006 }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <!--
+    <h1>上证指数：{{ dicts.now.sh000001 }}</h1>
+    <h1>深证指数：{{ dicts.now.sz399001 }}</h1>
+    <h1>沪深300指数：{{ dicts.now.sh000300 }}</h1>
+    <h1>创业板指数：{{ dicts.now.sz399006 }}</h1>
+    -->
 {% endblock %}

@@ -77,5 +77,9 @@ def calc_next_trade_time_delta_seconds():
     return time_delta.total_seconds()
 
 
+def get_m_d_HH_MM():
+    return datetime.datetime.now().strftime('%m_%d_%H_%M')
+
+
 if __name__ == '__main__':
     print(is_tradetime_now2())

@@ -2,8 +2,6 @@ import os
 import sys
 import pandas as pd
 
-sys.path.append("/Users/momantang/PyCharmProjects/cobrass")
-
 import QUANTAXIS as QA
 
 if __name__ == '__main__':

@@ -7,6 +7,7 @@ from django.views import generic
 from django.conf import settings
 
 import easyquotation
+import pandas as pd
 
 
 # Create your views here.
@@ -14,8 +15,11 @@ import easyquotation
 def index(request):
     # stock_index_snapshot = StockIndexSnapShot.objects.last()
     quotation = easyquotation.use('sina')
-    snapshot = quotation.market_snapshot(prefix=True)
-    return render(request, 'finance/index.html')
+    indexs = quotation.stocks(['sh000001', 'sz399001', 'sh000300', 'sz399006'], prefix=True)
+    df_indexs = pd.DataFrame.from_dict(indexs).T
+    dicts = df_indexs.to_dict()
+    print(dicts)
+    return render(request, 'finance/index.html', {'dicts': dicts})
 
 
 def update_cronjob(request):

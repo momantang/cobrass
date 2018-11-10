@@ -10,7 +10,8 @@ import pandas as pd
 from finance.models import Stock
 from utils import stockutil
 
-df_snapshot = pd.read_csv("/Users/momantang/work/cobrass/data/mark_snapshot/2018-10-09_11-58-47.csv")
+df_snapshot = pd.read_csv("/Users/momantang/work/cobrass/data/mark_snapshot/2018-11-09_14-55-43.csv",
+                          compression='gzip')
 
 
 def interest_stock_snapshot(df_snapshot):
@@ -30,3 +31,7 @@ def interest_stock_snapshot(df_snapshot):
     df = pd.concat([df_stock, df_snapshot], axis=1, join='inner')
     print(df.head())
     return df
+
+
+if __name__ == '__main__':
+    interest_stock_snapshot(df_snapshot)
