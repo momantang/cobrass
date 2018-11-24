@@ -6,7 +6,6 @@ sys.path
 import unittest
 
 from QUANTAXIS.QASU.main import QA_SU_save_stock_day
-
 from config import update_x
 
 

@@ -4,3 +4,9 @@ __author__ = 'cobrass'
 # 第三方项目
 __QUANTAXIS__PROJECT__ = ""
 __ABUPY__PROJECT__ = "https://github.com/QUANTAXIS/QUANTAXIS"
+
+from config import update_x
+
+import os
+
+os.environ.get('DISPLAY', 'DISPLAY')

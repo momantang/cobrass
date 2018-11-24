@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import datetime
-from utils.timeutils import get_Y_m_d_HH_MM
+from utils.timeutils import get_m_d_HH_MM
 from local import local_setting as ls
 
 import smtplib, time, os
@@ -17,7 +17,7 @@ def send_mail_table(df):
         msg = MIMEText("<html><body>" + df.to_html() + "</body></html>", 'html', 'utf-8')
         # msg = MIMEText("<p>test</p>", 'plain', 'utf-8')
 
-        msg['Subject'] = Header('股票表格' + get_Y_m_d_HH_MM(), 'utf-8')
+        msg['Subject'] = Header('股票表格' + get_m_d_HH_MM(), 'utf-8')
         msg["From"] = ls.LocalSetting.email_from
         msg["To"] = 'momantang@163.com'
         server.sendmail(ls.LocalSetting.email_from, ['momantang@163.com'], msg.as_string())

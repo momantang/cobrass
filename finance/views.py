@@ -8,6 +8,7 @@ from django.conf import settings
 
 import easyquotation
 import pandas as pd
+import QUANTAXIS as qa
 
 
 # Create your views here.
@@ -45,4 +46,8 @@ class CronjobView(generic.ListView):
 
 
 def html_page(request, page='about'):
-    return render(request, 'finance/{}.html'.format(page))
+    res = dict()
+    if page == 'projects':
+        res = {'quantaxis': qa.__version__}
+        print('projects')
+    return render(request, 'finance/{}.html'.format(page), {'res': res})
